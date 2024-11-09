@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchToken = async () => {
     try {
-        const response = await axios.post(`${process.env.REACT_APP_API_URL}/generate-token`, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL}/generate-token`, {
             headers: { 'Content-Type': 'application/json' },
         });
 
@@ -29,7 +29,7 @@ export const fetchEmployeeDetails = async () => {
             token = await refreshToken(currentTime)
         }
 
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/employee-details`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/employee-details`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -54,7 +54,7 @@ export const fetchEmployeeByEmail = async () => {
             token = await refreshToken(currentTime)
         }
         const email = localStorage.getItem('selectedEmployeeEmail')
-        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/get-employee-details-by-email`, { selectedEmail: email }, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/get-employee-details-by-email`, { selectedEmail: email }, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -77,7 +77,7 @@ export const fetchCompanyDetails = async () => {
             token = await refreshToken(currentTime)
         }
 
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/company-details`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/company-details`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,

@@ -1,0 +1,86 @@
+# Node modules
+node_modules/
+ 
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+.pnpm/
+.yarn/
+__pycache__/
+ 
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build output
+dist/
+build/
+
+# Cache and configuration files
+.cache/
+.parcel-cache/
+public/
+.DS_Store
+*.pem
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Testing
+coverage/
+*.lcov
+jest-coverage/
+.nyc_output/
+
+# MacOS files
+*.DS_Store
+
+# Storybook files
+storybook-static/
+
+# Optional npm cache directory
+.npm/
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Optional REPL history
+.node_repl_history
+
+# IntelliJ files
+/.idea/
+
+# Yarn Integrity files
+.yarn-integrity
+
+# Sentry files
+.sentrycli
+
+# VSCode settings
+.vscode/
+
+# Ignore package lock files if using yarn
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Service Worker
+workbox-config.js

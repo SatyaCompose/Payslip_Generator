@@ -1,0 +1,87 @@
+/* EmployeeTable.css */
+
+/* Container for the Employee Table */
+.employee-table-container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Title Styling */
+.employee-table-container h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th,
+table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+    color: #555;
+}
+
+table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+/* Error and Loading States */
+.loading,
+.error {
+    text-align: center;
+    font-size: 18px;
+    color: #d9534f;
+    margin-top: 20px;
+}
+
+/* Error message styling */
+.error {
+    color: #d9534f;
+}
+
+button {
+    padding: 8px 12px;
+    font-size: 20px;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #00b31b;
+}
+
+/* Optional: Adding a margin between buttons if needed */
+td button {
+    margin-right: 10px;
+}
+
+/* Optional: Specific styles for buttons in the header row */
+td button:first-of-type {
+    margin-right: 10px;
+}

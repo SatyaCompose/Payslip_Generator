@@ -4,16 +4,5 @@
             "src": "/",
             "dest": "/api"
         }
-    ],
-    "functions": {
-        "api/**/*.ts": {
-            "includeFiles": "api/**/*.ts"
-        }
-    },
-    "crons": [
-        {
-            "path": "/api/cron",
-            "schedule": "0 0 * * *"
-        }
     ]
 }

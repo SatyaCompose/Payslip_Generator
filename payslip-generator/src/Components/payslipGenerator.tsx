@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { fetchCompanyDetails, fetchEmployeeByEmail } from "../services";
-import { toast } from "react-toastify";
+import React from "react";
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import logo from '../assets/logo.png'
 import { belowTwenty, months, tens, thousands } from "../common/constant";
@@ -16,7 +14,7 @@ const styles = StyleSheet.create({
     header: { fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: 'black', paddingBottom: 30, },
     table: { width: '100%', alignSelf: "center", fontSize: 12, borderCollapse: 'collapse', paddingBottom: 30 },
     tableRow: { flexDirection: 'row' },
-    tableCell: { flex: 1, textAlign: 'left', paddingTop: 5, paddingBottom: 5, overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' },
+    tableCell: { flex: 1, textAlign: 'left', paddingTop: 5, paddingBottom: 5, overflow: 'hidden', textOverflow: 'ellipsis' },
     tableHeader: { fontWeight: 'bold', borderBottom: '1px solid #000', color: 'white', padding: '5px', textAlign: 'center', },
     detailsRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 },
     label: { fontSize: 10 },
@@ -24,31 +22,11 @@ const styles = StyleSheet.create({
     tableCellAmount: { flex: 1, fontSize: 10, textAlign: 'right' },
     tableTitle: { fontSize: 12, fontWeight: 'bold', marginVertical: 8, textDecoration: 'underline' },
 });
-
-const PayslipGenerator = () => {
-    const [employee, setEmployee] = useState<any>({});
-    const [company, setCompanyData] = useState<any>({});
-    useEffect(() => {
-        const fetchemployee = async () => {
-            try {
-                const data = await fetchEmployeeByEmail();
-                setEmployee(data.data)
-            } catch (err: any) {
-                toast.error('Error fetching employee data...!')
-            }
-        }
-        const fetchCompany = async () => {
-            try {
-                const data = await fetchCompanyDetails();
-                setCompanyData(data.data)
-            } catch (err: any) {
-                toast.error('Error fetching salary data...!')
-            }
-        }
-        fetchemployee();
-        fetchCompany();
-    }, []);
-
+interface PayslipGeneratorProps {
+    employee: any;
+    company: any;
+}
+const PayslipGenerator: React.FC<PayslipGeneratorProps> = ({ employee, company }) => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() - 1;
     const year = currentDate.getFullYear()
@@ -81,7 +59,6 @@ const PayslipGenerator = () => {
             totalAmount: minRentalAllowance + specialAllowance + (remainingAmount - specialAllowance),
         };
     }
-
     const allowances = divideAmount(totalAmount);
 
     function numberToWords(num: number): string {

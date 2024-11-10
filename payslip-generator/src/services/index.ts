@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const fetchToken = async () => {
     try {
@@ -63,7 +64,7 @@ export const fetchEmployeeByEmail = async () => {
 
         return response.data;
     } catch (err: any) {
-        console.error("Error fetching employee details:", err);
+        console.error("Error fetching employee details by email:", err);
     }
 }
 
@@ -87,9 +88,36 @@ export const fetchCompanyDetails = async () => {
         return response.data;
 
     } catch (err: any) {
-        console.error("Error fetching employee details:", err);
+        console.error("Error fetching company details:", err);
     }
 };
+
+export const sendEmail = async (formData: any) => {
+    try {
+        let token = localStorage.getItem('authToken');
+        let tokenExpiry = localStorage.getItem('tokenExpiry');
+
+        const currentTime = new Date().getTime();
+
+        if (token === '' || token === 'undefined' || currentTime >= Number(tokenExpiry)) {
+            token = await refreshToken(currentTime)
+        }
+
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/email-sender`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        if (response.status === 200) {
+            toast.success("PDF sent successfully!");
+        } else {
+            toast.error("Error sending PDF!");
+        }
+        return response;
+    } catch (err: any) {
+        console.error("Error sending email:", err);
+    }
+}
 
 export const refreshToken = async (currentTime: any) => {
     const newToken = await fetchToken();

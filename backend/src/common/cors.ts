@@ -1,10 +1,10 @@
 const allowCors = (req: any, res: any, next: any) => {
-    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3001/'];
-    if (allowedOrigins.includes(req.headers.origin)) {
-        res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-    } else {
-        res.setHeader('Access-Control-Allow-Origin', '');
-    }
+    // const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3001/'];
+    // if (allowedOrigins.includes(req.headers.origin)) {
+        res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+    // } else {
+    //     res.setHeader('Access-Control-Allow-Origin', '');
+    // }
 
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');

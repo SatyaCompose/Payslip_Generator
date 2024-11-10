@@ -30,7 +30,7 @@ app.get('/api/employee-details', allowCors, verifyToken, async (req: Request, re
 app.post('/api/get-employee-details-by-email', allowCors, verifyToken, async (req: any, res: Response) => {
     
     try {
-        const { selectedEmail } = req?.body;
+        const { selectedEmail } = req.body;
         const data = await getEmployeeByEmail(selectedEmail);
         res.json(data);
     } catch (error) {

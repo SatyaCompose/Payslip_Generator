@@ -28,7 +28,6 @@ build/
 # Cache and configuration files
 .cache/
 .parcel-cache/
-public/
 .DS_Store
 *.pem
 

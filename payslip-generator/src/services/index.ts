@@ -23,9 +23,9 @@ export const fetchEmployeeDetails = async () => {
     try {
         let token = localStorage.getItem('authToken');
         let tokenExpiry = localStorage.getItem('tokenExpiry');
-
+        console.log("TOKEN", token)
         const currentTime = new Date().getTime();
-        if (token === '' || token === undefined || currentTime >= Number(tokenExpiry)) {
+        if (token === '' || token === 'undefined' || currentTime >= Number(tokenExpiry)) {
             token = await refreshToken(currentTime)
         }
 
@@ -50,7 +50,7 @@ export const fetchEmployeeByEmail = async () => {
 
         const currentTime = new Date().getTime();
 
-        if (token === '' || token === undefined || currentTime >= Number(tokenExpiry)) {
+        if (token === '' || token === 'undefined' || currentTime >= Number(tokenExpiry)) {
             token = await refreshToken(currentTime)
         }
         const email = localStorage.getItem('selectedEmployeeEmail')
@@ -73,7 +73,7 @@ export const fetchCompanyDetails = async () => {
         let tokenExpiry = localStorage.getItem('tokenExpiry');
 
         const currentTime = new Date().getTime();
-        if (token === '' || token === undefined || currentTime >= Number(tokenExpiry)) {
+        if (token === '' || token === 'undefined' || currentTime >= Number(tokenExpiry)) {
             token = await refreshToken(currentTime)
         }
 

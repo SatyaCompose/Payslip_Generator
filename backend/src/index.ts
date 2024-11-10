@@ -11,19 +11,14 @@ const app = express();
 app.use(express.json());
 app.use(allowCors);
 
-// app.post('/', allowCors, (req: Request, res: Response) => {
-//     res.send('Server linked!');
-// });
-
-
-app.post('/generate-token', (req: Request, res: Response) => {
+app.post('/generate-token', allowCors, (req: Request, res: Response) => {
     // Generate the token with a secret key
     const token = generateToken();
     // Send the token in the response
     res.json({ token });
 });
 
-app.get('/api/employee-details', verifyToken, async (req: Request, res: Response) => {
+app.get('/api/employee-details', allowCors, verifyToken, async (req: Request, res: Response) => {
     try {
         const data = await getEmployeeDetails();
         res.json(data);
@@ -32,7 +27,7 @@ app.get('/api/employee-details', verifyToken, async (req: Request, res: Response
     }
 });
 
-app.post('/api/get-employee-details-by-email', verifyToken, async (req: any, res: Response) => {
+app.post('/api/get-employee-details-by-email', allowCors, verifyToken, async (req: any, res: Response) => {
     
     try {
         const { selectedEmail } = req?.body;
@@ -44,7 +39,7 @@ app.post('/api/get-employee-details-by-email', verifyToken, async (req: any, res
 });
 
 // Company Details Route
-app.get('/api/company-details', verifyToken, async (req: Request, res: Response) => {
+app.get('/api/company-details', allowCors, verifyToken, async (req: Request, res: Response) => {
     try {
         const data = await companyDetails();
         res.json(data);

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 const PayslipViewer = () => {
     const [employee, setEmployee] = useState<any>({});
-    const [company, setCompanyData] = useState<any>({});
+    const [company, setCompany] = useState<any>({});
 
     useEffect(() => {
         const fetchemployee = async () => {
@@ -20,7 +20,7 @@ const PayslipViewer = () => {
         const fetchCompany = async () => {
             try {
                 const data = await fetchCompanyDetails();
-                setCompanyData(data.data)
+                setCompany(data.data)
             } catch (err: any) {
                 toast.error('Error fetching salary data...!')
             }
@@ -28,7 +28,7 @@ const PayslipViewer = () => {
         fetchemployee();
         fetchCompany();
     }, []);
-    toast.success('PDF Loaded successfully!!!')
+
     return (
         <>
             <ToastContainer position="top-center" />

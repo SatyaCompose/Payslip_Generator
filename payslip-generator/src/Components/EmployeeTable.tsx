@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchCompanyDetails, fetchEmployeeByEmail, fetchEmployeeDetails, sendEmail } from "../services";
+import { fetchCompanyDetails, fetchEmployeeDetails, sendEmail } from "../services";
 import { toast, ToastContainer } from "react-toastify";
 import '../Styles/EmployeeTable.css'
 import { useNavigate } from "react-router-dom";
@@ -11,8 +11,7 @@ import { emailBody } from "../common/constant";
 const EmployeeTable = () => {
     const navigate = useNavigate();
     const [employeeDetails, setEmployeeDetails] = useState<any>(null);
-    const [employee, setEmployee] = useState<any>({});
-    const [company, setCompanyData] = useState<any>({});
+    const [company, setCompany] = useState<any>({});
     const [loading, setLoading] = useState<boolean>(true);
 
     const currentDate = new Date();
@@ -29,6 +28,9 @@ const EmployeeTable = () => {
 
     const handleEmailSender = async (email: string) => {
         localStorage.setItem('selectedEmployeeEmail', email);
+        navigate("/email-sender")
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        navigate('/')
     }
 
     const handlePreviewClick = (email: string) => {
@@ -41,7 +43,6 @@ const EmployeeTable = () => {
             try {
                 const data = await fetchEmployeeDetails();
                 if (data.status === 200) {
-                    toast.success('Employee details fetched successfully')
                     setEmployeeDetails(data.data.map((data: any) => data.data));
                 } else {
                     toast.error('Something went wrong during fetching Employee details')
@@ -56,53 +57,39 @@ const EmployeeTable = () => {
         getEmployeeDetails();
     }, []);
 
-    const selectedEmail = localStorage.getItem('selectedEmployeeEmail')
     useEffect(() => {
-        const fetchemployee = async () => {
-            try {
-                const data = await fetchEmployeeByEmail();
-                setEmployee(data.data)
-            } catch (err: any) {
-                toast.error('Error fetching employee data...!')
-            }
-        }
         const fetchCompany = async () => {
             try {
                 const data = await fetchCompanyDetails();
-                setCompanyData(data.data)
+                setCompany(data.data)
             } catch (err: any) {
                 toast.error('Error fetching salary data...!')
             }
         }
-        fetchemployee();
         fetchCompany();
-    }, [selectedEmail]);
+    }, []);
 
-    const handleSendPDF = async () => {
+    const handleSendPDF = async (selectedEmployee: any) => {
         try {
-            const body = await emailBody(employee, shortMonth, year)
-            const name = employee.employeeName.split(' ')[0]
-            const blob = await pdf(<PayslipGenerator employee={employee} company={company} />).toBlob();
-            if (blob && blob.type !== 'application/pdf') {
-                toast.error('Generated file is not a valid PDF');
-            }
+            const body = await emailBody(selectedEmployee, shortMonth, year);
+            const name = selectedEmployee?.employeeName.split(' ')[0];
+            const blob = await pdf(<PayslipGenerator employee={selectedEmployee} company={company} />).toBlob();
 
-            const email = localStorage.getItem('selectedEmployeeEmail');
             const formData = new FormData();
             formData.append("pdf", blob, `${shortMonth}-${name}.pdf`);
-            formData.append('reciepentEmail', `${email}`);
-            formData.append('emailBody', `${body}`)
-            formData.append('emailSubject', `${shortMonth} ${year} Payslip`)
-            formData.append('fileName', `${shortMonth}-${name}`)
+            formData.append('reciepentEmail', `${selectedEmployee?.email}`);
+            formData.append('emailBody', body);
+            formData.append('emailSubject', `${shortMonth} ${year} Payslip`);
+            formData.append('fileName', `${shortMonth}-${name}`);
 
-            await sendEmail(formData)
+            await sendEmail(formData);
         } catch (error) {
             toast.error("Error sending PDF!");
         }
     };
 
     if (loading) {
-        return <div>Loading...</div>; // Show loading message while fetching
+        return <div>Loading...</div>;
     }
 
     return (
@@ -115,25 +102,26 @@ const EmployeeTable = () => {
             }}>
                 <h2 style={{
                     textAlign: 'center',
-                    fontSize: 45
+                    fontSize: 45,
+                    padding: 0
                 }}>
                     Employee Details
                 </h2>
                 <table style={{
-                    width: '100%',
+                    width: '90%',
                     borderCollapse: 'collapse',
-                    marginBottom: 20,
+                    margin: "20px auto",
                 }}>
                     <thead>
                         <tr>
-                            <th>Employee Number</th>
-                            <th>Email</th>
-                            <th>Name</th>
-                            <th>Designation</th>
-                            <th>Department</th>
-                            <th>Salary Info</th>
-                            <th>Show Preview </th>
-                            <th>Email Sender</th>
+                            <th style={{ textAlign: "center" }}>Employee Number</th>
+                            <th style={{ textAlign: "center" }}>Email</th>
+                            <th style={{ textAlign: "center" }}>Name</th>
+                            <th style={{ textAlign: "center" }}>Designation</th>
+                            <th style={{ textAlign: "center" }}>Department</th>
+                            <th style={{ textAlign: "center" }}>Salary Info</th>
+                            <th style={{ textAlign: "center" }}>Show Preview </th>
+                            <th style={{ textAlign: "center" }}>Email Sender</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -145,14 +133,14 @@ const EmployeeTable = () => {
                                 <td>{employee.designation}</td>
                                 <td>{employee.department}</td>
                                 <td>{employee.salaryInfo}</td>
-                                <td style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <button onClick={() => handlePreviewClick(employee.email)}>Show Preview</button>
+                                <td>
+                                    <button style={{ margin: 0 }} onClick={() => handlePreviewClick(employee.email)}>Show Preview</button>
                                 </td>
                                 <td>
-                                    <button onClick={() => {
-                                        handleEmailSender(employee.email);
-                                        handleSendPDF();
-                                    }}>Send Payslip Email</button>
+                                    <button style={{ margin: 0 }} onClick={async () => {
+                                        await handleEmailSender(employee.email);
+                                        await handleSendPDF(employee);
+                                    }}>Send Email</button>
                                 </td>
                             </tr>
                         ))}

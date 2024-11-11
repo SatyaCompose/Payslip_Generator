@@ -1,0 +1,35 @@
+/* Loading.css */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Full viewport height */
+    background-color: #f0f0f0;
+    /* Light background color */
+}
+
+.loading-spinner {
+    border: 8px solid #f3f3f3;
+    /* Light grey */
+    border-top: 8px solid #4CAF50;
+    /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    /* Spinner size */
+    height: 60px;
+    /* Spinner size */
+    animation: spin 1s linear infinite;
+    /* Animation */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

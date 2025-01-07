@@ -29,8 +29,12 @@ interface PayslipGeneratorProps {
 const PayslipGenerator: React.FC<PayslipGeneratorProps> = ({ employee, company }) => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() - 1;
-    const year = currentDate.getFullYear()
-    const month = months[currentMonth]
+    const currentYear = currentDate.getFullYear();
+    const payslipMonth = 11;
+    // Adjust the year if the payslip is for December but generated in January
+    const year = currentMonth === -1 && payslipMonth === 11 ? currentYear - 1 : currentYear;
+    // Get the name of the month
+    const month = months[payslipMonth];
 
     const { attendence, bank, bankAcNumber, dateOfJoining, department, designation, employeeName, employeeNumber, ifscCode, salaryInfo } = employee;
     const { companyName, companyAddress } = company;

@@ -16,8 +16,9 @@ const EmployeeTable = () => {
 
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() - 1;
-    const year = currentDate.getFullYear();
+    const currentYear = currentDate.getFullYear()
     const prevMonth = currentMonth < 0 ? 11 : currentMonth;
+    const year = prevMonth === 11 ? currentYear - 1 : currentYear;
 
     const getShortMonth = (monthIndex: number) => {
         const date = new Date(2222, monthIndex); // Year doesn't matter, only month

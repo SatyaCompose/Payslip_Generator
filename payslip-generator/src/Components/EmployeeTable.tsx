@@ -15,7 +15,7 @@ const EmployeeTable = () => {
     const [loading, setLoading] = useState<boolean>(true);
 
     const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() - 1;
+    const currentMonth = 1 - 1;
     const currentYear = currentDate.getFullYear()
     const prevMonth = currentMonth < 0 ? 11 : currentMonth;
     const year = prevMonth === 11 ? currentYear - 1 : currentYear;
